@@ -23,7 +23,7 @@ public class TerrainGeneration : MonoBehaviour
 
     private void OnValidate()
     {
-       //DrawTextures();
+       DrawTextures();
     }
 
     void Start()

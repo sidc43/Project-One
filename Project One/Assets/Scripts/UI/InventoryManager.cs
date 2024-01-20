@@ -1,20 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField] private GameObject slotSelector;
-    private int slotNumber;
     [SerializeField] private List<float> hotbarXValue;
     [SerializeField] private List<Slot> hotbarSlots;
     [SerializeField] private List<Slot> inventorySlots;
+    [SerializeField] private List<GameObject> slotSelectors;
 
+    private int slotNumber;
 
     // Start is called before the first frame update
     void Start()
     {
         slotNumber = 0;
+        for (int i = 0; i < slotSelectors.Count; i++)
+        {
+            if (i == 0)
+                slotSelectors[i].GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            slotSelectors[i].GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        }
     }
 
     // Update is called once per frame
@@ -25,6 +32,7 @@ public class InventoryManager : MonoBehaviour
 
     private void SlotScroll()
     {
+        slotSelectors[slotNumber].GetComponent<Image>().color = new Color(1, 1, 1, 0);
         if (Input.GetAxis("Mouse ScrollWheel") > 0) {
             if (slotNumber == 0) {
                 slotNumber = 6;
@@ -40,8 +48,7 @@ public class InventoryManager : MonoBehaviour
                 slotNumber++;
             }
         }
-
-        slotSelector.GetComponent<RectTransform>().anchoredPosition = new Vector2(hotbarXValue[slotNumber], 
-            slotSelector.GetComponent<RectTransform>().anchoredPosition.y);
+        slotSelectors[slotNumber].GetComponent<Image>().color = new Color(1, 1, 1, 1);
     }
 }
+

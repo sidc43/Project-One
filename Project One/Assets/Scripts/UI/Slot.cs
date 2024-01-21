@@ -11,18 +11,20 @@ public class Slot : MonoBehaviour, IDropHandler
 
     [SerializeField] private int count;
 
-    private TMP_Text countText;
+    public TMP_Text countText;
 
-    // Start is called before the first frame update
     void Start()
     {
         
     }
-
-    // Update is called once per frame
     void Update()
     {
-
+        if (this.transform.childCount == 0)
+        {
+            countText = null;
+            item = null;
+            count = 0;
+        }
     }
 
     public void UpdateCount(int countIncrement)
@@ -59,5 +61,7 @@ public class Slot : MonoBehaviour, IDropHandler
         {
             dd.parentAfterDrag = transform;
         }
+        item = dd.item;
+        UpdateCount(dd.count);
     }
 }

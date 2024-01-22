@@ -17,6 +17,9 @@ public class BiomeClass
     public Tilemap rockTileMap;
     public Tile[] groundTiles, treeTiles, foliageTiles, rockTiles;
 
+    [Header("If applicable")]
+    public AnimatedTile animatedTile;
+
     [Header("Foliage settings")]
     [Range(0, 1)]
     public float treeChance;

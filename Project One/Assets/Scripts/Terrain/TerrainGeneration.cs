@@ -41,7 +41,14 @@ public class TerrainGeneration : MonoBehaviour
             for (int y = 0; y < worldHeight; y++)
             {
                 currentBiome = GetCurrentBiome(x, y);
-                SetTileOfType(currentBiome.tileMap, new Vector3Int(x, y), currentBiome.groundTiles);
+                if (currentBiome.biomeName == "Water")
+                {
+                    SetTileOfType(currentBiome.tileMap, new Vector3Int(x, y), currentBiome.animatedTile);
+                }
+                else
+                { 
+                    SetTileOfType(currentBiome.tileMap, new Vector3Int(x, y), currentBiome.groundTiles);
+                }
 
                 // Add foliage
                 float treeChance = Random.Range(0f, 1f);
@@ -65,6 +72,10 @@ public class TerrainGeneration : MonoBehaviour
     private void SetTileOfType(Tilemap tilemap, Vector3Int pos, Tile[] tiles)
     {
         tilemap.SetTile(pos, tiles[Random.Range(0, tiles.Length - 1)]);
+    }
+    private void SetTileOfType(Tilemap tilemap, Vector3Int pos, AnimatedTile tile)
+    {
+        tilemap.SetTile(pos, tile);
     }
     private void GenerateBiomeTexture()
     {

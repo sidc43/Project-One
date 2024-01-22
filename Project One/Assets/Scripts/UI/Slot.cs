@@ -8,21 +8,17 @@ using UnityEngine.EventSystems;
 public class Slot : MonoBehaviour, IDropHandler
 {
     [SerializeField] private Item item;
-
     [SerializeField] private int count;
+    public TMP_Text countText;
 
-    private TMP_Text countText;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-
+        if (this.transform.childCount == 0)
+        {
+            countText = null;
+            item = null;
+            count = 0;
+        }
     }
 
     public void UpdateCount(int countIncrement)
@@ -34,7 +30,6 @@ public class Slot : MonoBehaviour, IDropHandler
             countText.text = count + "";
         }
     }
-
     public Item GetItem()
     {
         return this.item;
@@ -43,15 +38,12 @@ public class Slot : MonoBehaviour, IDropHandler
     {
         return this.count;
     }
-
     public void SetItem(Item item)
     {
         this.item = item;
     }
-
     public void OnDrop(PointerEventData eventData)
     {   
-        Debug.Log("Dropped");
         GameObject droppedItem = eventData.pointerDrag;
         DragDrop dd = droppedItem.GetComponent<DragDrop>();
 
@@ -59,5 +51,7 @@ public class Slot : MonoBehaviour, IDropHandler
         {
             dd.parentAfterDrag = transform;
         }
+        item = dd.item;
+        UpdateCount(dd.count);
     }
 }

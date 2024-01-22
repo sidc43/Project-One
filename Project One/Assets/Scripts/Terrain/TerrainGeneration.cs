@@ -21,11 +21,6 @@ public class TerrainGeneration : MonoBehaviour
 
     private BiomeClass currentBiome;
 
-    private void OnValidate()
-    {
-       //DrawTextures();
-    }
-
     void Start()
     {
         seed = Random.Range(-100000, 100000);
@@ -34,6 +29,7 @@ public class TerrainGeneration : MonoBehaviour
     }
     private void DrawTextures()
     {
+        // Create biome map and generate world noise texture
         GenerateNoiseTexture();
         biomeMap = new Texture2D(worldWidth, worldHeight);
         GenerateBiomeTexture();
@@ -47,7 +43,7 @@ public class TerrainGeneration : MonoBehaviour
                 currentBiome = GetCurrentBiome(x, y);
                 SetTileOfType(currentBiome.tileMap, new Vector3Int(x, y), currentBiome.groundTiles);
 
-                // TODO: Add foliage
+                // Add foliage
                 float treeChance = Random.Range(0f, 1f);
                 float foliageChance = Random.Range(0f, 1f);
                 float rockChance = Random.Range(0f, 1f);
@@ -76,6 +72,7 @@ public class TerrainGeneration : MonoBehaviour
         {
             for (int y = 0; y < biomeMap.height; y++)
             {
+                // Generate perlin noise texture and set the color to the corresponding biome
                 float perlin = Mathf.PerlinNoise((x + seed) * biomeFreq, (y + seed) * biomeFreq);
                 Color c = biomeGradient.Evaluate(perlin);
                 biomeMap.SetPixel(x, y, c);
@@ -99,7 +96,6 @@ public class TerrainGeneration : MonoBehaviour
     }
     private BiomeClass GetCurrentBiome(int x, int y)
     {
-        // Change currentBiome
         // Search through biomes
         for (int i = 0; i < biomes.Length; i++)
         {
@@ -111,4 +107,6 @@ public class TerrainGeneration : MonoBehaviour
 
         return currentBiome;
     }
+    public int GetWorldWidth => worldWidth;
+    public int GetWorldHeight => worldHeight;
 }

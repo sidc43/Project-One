@@ -20,34 +20,41 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         canvas = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Canvas>();
         image = GetComponent<Image>();
         canvasGroup = GetComponent<CanvasGroup>();
-
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log(GetComponentInParent<Slot>().GetItem());
         parentAfterDrag = transform.parent;
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
+
+        // Block raycasts to unity can see what is under the item
         image.raycastTarget = false;
         canvasGroup.blocksRaycasts = false; 
     }
     public void OnDrag(PointerEventData eventData)
     {
+        // Move the item in relation to canvas scale
         this.GetComponent<RectTransform>().anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        // Set the parent to the slot the item has been dropped on
         transform.SetParent(parentAfterDrag);
+
+        // Enable raycasts so that the item is pickupable again
         image.raycastTarget = true;
         canvasGroup.blocksRaycasts = true;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        // Get item data to move to the target slot
         item = GetComponentInParent<Slot>().GetItem();
         count = GetComponentInParent<Slot>().GetCount();
         countText = GetComponentInParent<Slot>().countText;
+
+        Debug.Log(transform.parent.name);
     }
 }

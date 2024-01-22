@@ -8,15 +8,9 @@ using UnityEngine.EventSystems;
 public class Slot : MonoBehaviour, IDropHandler
 {
     [SerializeField] private Item item;
-
     [SerializeField] private int count;
-
     public TMP_Text countText;
 
-    void Start()
-    {
-        
-    }
     void Update()
     {
         if (this.transform.childCount == 0)
@@ -36,7 +30,6 @@ public class Slot : MonoBehaviour, IDropHandler
             countText.text = count + "";
         }
     }
-
     public Item GetItem()
     {
         return this.item;
@@ -45,15 +38,12 @@ public class Slot : MonoBehaviour, IDropHandler
     {
         return this.count;
     }
-
     public void SetItem(Item item)
     {
         this.item = item;
     }
-
     public void OnDrop(PointerEventData eventData)
     {   
-        Debug.Log("Dropped");
         GameObject droppedItem = eventData.pointerDrag;
         DragDrop dd = droppedItem.GetComponent<DragDrop>();
 

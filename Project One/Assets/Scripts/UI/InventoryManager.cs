@@ -43,7 +43,7 @@ public class InventoryManager : MonoBehaviour
         // Scroll forward
         if (Input.GetAxis("Mouse ScrollWheel") > 0) {
             if (slotNumber == 0) {
-                slotNumber = 6;
+                slotNumber = slotSelectors.Count - 1;
             } else {
                 slotNumber--;
             }
@@ -51,7 +51,7 @@ public class InventoryManager : MonoBehaviour
 
         // Scroll backward
         if (Input.GetAxis("Mouse ScrollWheel") < 0) {
-            if (slotNumber == 6) {
+            if (slotNumber == slotSelectors.Count - 1) {
                 slotNumber = 0;
             } else {
                 slotNumber++;

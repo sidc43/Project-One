@@ -15,7 +15,6 @@ public class Slot : MonoBehaviour, IDropHandler
     {
         if (this.transform.childCount == 0)
         {
-            countText = null;
             item = null;
             count = 0;
         }
@@ -43,15 +42,13 @@ public class Slot : MonoBehaviour, IDropHandler
         this.item = item;
     }
     public void OnDrop(PointerEventData eventData)
-    {   
-        GameObject droppedItem = eventData.pointerDrag;
-        DragDrop dd = droppedItem.GetComponent<DragDrop>();
-
+    {
         if (transform.childCount == 0)
         {
+            GameObject droppedItem = eventData.pointerDrag;
+            NewDragDrop dd = droppedItem.GetComponent<NewDragDrop>();
+
             dd.parentAfterDrag = transform;
         }
-        item = dd.item;
-        UpdateCount(dd.count);
     }
 }

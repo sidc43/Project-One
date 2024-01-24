@@ -62,7 +62,6 @@ public class InventoryManager : MonoBehaviour
         // Show slot selector
         slotSelectors[slotNumber].GetComponent<Image>().color = new Color(1, 1, 1, 1);
     }
-
     public void AddItem(Item item, int count, List<Slot> slots)
     {
         // Check for stackable items in existing slots
@@ -110,7 +109,6 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
-
     private void UpdateSlot(Slot slot, Item item, int count)
     {
         // Update item count and image in slot
@@ -123,13 +121,11 @@ public class InventoryManager : MonoBehaviour
         }
         slot.UpdateCount(count);
     }
-
     private void AssignDebugButtons()
     {
         addSword.onClick.AddListener(delegate { AddItem(sword, 1, playerSlots); });
         addApple.onClick.AddListener(delegate { AddItem(apple, 5, playerSlots); });
     }
-
     private void InitializeSelectors()
     {
         for (int i = 0; i < slotSelectors.Count; i++)
@@ -140,4 +136,3 @@ public class InventoryManager : MonoBehaviour
         }
     }
 }   
-

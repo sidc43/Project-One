@@ -54,9 +54,26 @@ public class Slot : MonoBehaviour, IDropHandler
         // TODO: Stack and split if same item
         if (transform.childCount > 0)
         {
-            if (dd.item == this.item)
+            if (dd.item.itemName == this.item.itemName)
             {
-                Debug.Log("Same");
+                // Calculate the space left in the current slot
+                int spaceLeftInSlot = dd.item.maxStack - dd.count;
+
+                // Check if there is enough space in the slot to stack the items
+                if (spaceLeftInSlot > 0)
+                {
+                    // Calculate the amount to stack
+                    int amountToStack = Mathf.Min(spaceLeftInSlot, dd.count);
+
+                    // Update the stack count in the slot and the dragged item
+                    UpdateCount(amountToStack);
+                    dd.transform.parent.GetComponent<Slot>().UpdateCount(-amountToStack);
+                }
+                else
+                {
+                    // If the slot is full, do nothing (or handle accordingly)
+                    Debug.Log("Slot is full");
+                }
             }
         }
     }

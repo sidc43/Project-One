@@ -7,8 +7,12 @@ using UnityEngine.Tilemaps;
 
 public class MapManager : MonoBehaviour
 {
-    [SerializeField] private Tilemap[] groundTilemaps;
+    [SerializeField] private List<Tilemap> groundTilemaps;
+    [SerializeField] private List<Tilemap> destructibleTilemaps;
+    [SerializeField] private Tilemap playerPlacedTilemap;
+    [SerializeField] private TileBase wood;
     [SerializeField] private PlayerMovement player;
+    private Vector3Int breakingBlock = Vector3Int.zero;
 
     [SerializeField] private List<GroundTileData> groundTileDatas;
     [SerializeField] private List<DestructibleTileData> destructibleTileDatas;
@@ -30,18 +34,9 @@ public class MapManager : MonoBehaviour
     private void Update()
     {
         player.speed = GetGroundTileSpeed(player.transform.position);
-
-        if (Utility.LMB())
-        {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            // TODO: Loop through interactive and destructive tilemaps and take action accordingly
-            foreach (var tilemap in groundTilemaps)
-            {
-                Vector3Int gridPos = tilemap.WorldToCell(mousePos);
-                TileBase t = tilemap.GetTile(gridPos);
-            }
-        }
+        DestroyBlock();
+        PlaceBlock();
+        
     }
 
     private void InitializeTileDatas()
@@ -75,17 +70,56 @@ public class MapManager : MonoBehaviour
     }
     public float GetGroundTileSpeed(Vector2 pos)
     {
-        float walkSp = player.GetMaxSpeed();
-        foreach (Tilemap tilemap in groundTilemaps)
+        for (int i = 0; i < groundTilemaps.Count; i++)
         {
-            Vector3Int gridPos = tilemap.WorldToCell(pos);
-            TileBase tile = tilemap.GetTile(gridPos);
+            // TODO: Fix to foreach
+            Vector3Int gridPos = groundTilemaps[i].WorldToCell(pos);
+            TileBase tile = groundTilemaps[i].GetTile(gridPos);
             if (tile != null)
-            {
-               walkSp = dataFromGroundTiles[tile].walkingSpeed;
+            {   
+                return dataFromGroundTiles[tile].walkingSpeed;
             }
-            return walkSp;
         }
-        return walkSp;
+        return player.GetMaxSpeed();
+    }
+
+    public void DestroyBlock()
+    {
+        if (Utility.LMB())
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            for (int i = 0; i < destructibleTilemaps.Count; i++)
+            {
+                TileBase t;
+                Vector3Int gridPos = destructibleTilemaps[i].WorldToCell(mousePos);
+                if (!gridPos.Equals(breakingBlock))
+                {   
+                    t = destructibleTilemaps[i].GetTile(gridPos);
+                    dataFromDestructibleTiles[t].SetHealthMax();
+                    breakingBlock = gridPos;
+                }
+                t = destructibleTilemaps[i].GetTile(gridPos);
+                if (!dataFromDestructibleTiles[t].ReduceHealth(10))
+                {
+                    destructibleTilemaps[i].SetTile(gridPos, null);
+                }
+            }
+        }
+    }
+
+    public void PlaceBlock()
+    {
+        if (Utility.RMB())
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            for (int i = 0; i < groundTilemaps.Count; i++)
+            {
+                Vector3Int gridPos = groundTilemaps[i].WorldToCell(mousePos);
+                
+                playerPlacedTilemap.SetTile(gridPos, wood);
+            }
+        }
     }
 }

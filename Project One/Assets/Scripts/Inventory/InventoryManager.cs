@@ -35,7 +35,10 @@ public class InventoryManager : MonoBehaviour
     {
         SlotScroll();
     }
-
+    public Item GetActiveItem()
+    {
+        return hotbarSlots[slotNumber].GetItem();
+    }
     private void SlotScroll()
     {
         // Hide slot selector

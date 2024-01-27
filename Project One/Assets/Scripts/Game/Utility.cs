@@ -11,4 +11,7 @@ public static class Utility
 
         return v;
     }
+
+    public static bool LMB() => Input.GetMouseButtonDown(0);
+    public static bool RMB() => Input.GetMouseButtonDown(1);
 }

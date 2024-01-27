@@ -17,7 +17,7 @@ public class Water : MonoBehaviour
     {
         if (player != null)
         {
-            player.speed = player.GetMaxSpeed;
+            player.speed = player.GetMaxSpeed();
         }
     }
 }

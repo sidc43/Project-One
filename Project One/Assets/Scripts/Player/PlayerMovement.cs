@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    [Header("Player attributes")]
+    [SerializeField] private float maxHealth;
+    public float health;
+    public Item activeItem;
+
+    [SerializeField] private InventoryManager inventoryManager;
+
+    [Header("Player physics")]
     [SerializeField] private float maxSpeed;
     public float speed;
     public Rigidbody2D rb;
@@ -13,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        activeItem = inventoryManager.GetActiveItem();
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
@@ -31,5 +41,5 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
     }
-    public float GetMaxSpeed => maxSpeed;
+    public float GetMaxSpeed() => maxSpeed;
 }

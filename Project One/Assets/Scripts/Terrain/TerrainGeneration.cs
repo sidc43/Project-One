@@ -109,7 +109,7 @@ public class TerrainGeneration : MonoBehaviour
     {
         // Search through biomes
         for (int i = 0; i < biomes.Length; i++)
-        {
+        {   
             if (biomes[i].biomeCol == biomeMap.GetPixel(x, y))
             {
                 return biomes[i];

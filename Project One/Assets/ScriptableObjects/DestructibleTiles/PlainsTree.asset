@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f0accf0ce479154890d247c6c6090ad, type: 3}
+  m_Name: PlainsTree
+  m_EditorClassIdentifier: 
+  tiles:
+  - {fileID: 11400000, guid: 1db65298f111126478ed3a99246130a5, type: 2}
+  - {fileID: 11400000, guid: ef0760eab4cf3cd489aae0664350f321, type: 2}
+  - {fileID: 11400000, guid: 68f02374939493f4b85290f9d9512273, type: 2}
+  health: 100

@@ -6,8 +6,9 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu]
 public class DestructibleTileData : ScriptableObject
 {
-    public TileBase[] tiles;
+    public TileBase tile;
     public const int maxHealth = 100;
+    public Item item;
     [SerializeField] private int health;
 
     public void OnEnable()

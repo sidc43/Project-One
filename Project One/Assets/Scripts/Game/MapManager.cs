@@ -10,7 +10,6 @@ public class MapManager : MonoBehaviour
     [SerializeField] private List<Tilemap> groundTilemaps;
     [SerializeField] private List<Tilemap> destructibleTilemaps;
     [SerializeField] private Tilemap playerPlacedTilemap;
-    [SerializeField] private TileBase wood;
     [SerializeField] private PlayerMovement player;
     private Vector3Int breakingBlock = Vector3Int.zero;
 
@@ -34,8 +33,8 @@ public class MapManager : MonoBehaviour
     private void Update()
     {
         player.speed = GetGroundTileSpeed(player.transform.position);
-        DestroyBlock();
-        PlaceBlock();
+        HandleDestroyBlock();
+        HandlePlaceBlock();
         
     }
 
@@ -53,19 +52,13 @@ public class MapManager : MonoBehaviour
         // Feed data to all destructible tiles
         foreach (var dTileData in destructibleTileDatas)
         {
-            foreach (var tile in dTileData.tiles)
-            {
-                dataFromDestructibleTiles.Add(tile, dTileData);
-            }
+            dataFromDestructibleTiles.Add(dTileData.tile, dTileData);
         }
 
         // Feed data to all interactive tiles
         foreach (var iTileData in interactiveTileDatas)
         {
-            foreach (var tile in iTileData.tiles)
-            {
-                dataFromInteractiveTiles.Add(tile, iTileData);
-            }
+            dataFromInteractiveTiles.Add(iTileData.tile, iTileData);
         }
     }
     public float GetGroundTileSpeed(Vector2 pos)
@@ -83,7 +76,7 @@ public class MapManager : MonoBehaviour
         return player.GetMaxSpeed();
     }
 
-    public void DestroyBlock()
+    public void HandleDestroyBlock()
     {
         if (Utility.LMB())
         {
@@ -105,10 +98,12 @@ public class MapManager : MonoBehaviour
                     destructibleTilemaps[i].SetTile(gridPos, null);
                 }
             }
+
+            // TODO: Loop through player placed tilemap and do the same
         }
     }
 
-    public void PlaceBlock()
+    public void HandlePlaceBlock()
     {
         if (Utility.RMB())
         {
@@ -118,7 +113,7 @@ public class MapManager : MonoBehaviour
             {
                 Vector3Int gridPos = groundTilemaps[i].WorldToCell(mousePos);
                 
-                playerPlacedTilemap.SetTile(gridPos, wood);
+                //playerPlacedTilemap.SetTile(gridPos, wood);
             }
         }
     }

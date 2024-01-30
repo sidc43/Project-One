@@ -34,6 +34,21 @@ public class InventoryManager : MonoBehaviour
     void Update()
     {
         SlotScroll();
+        SlotSelectNum();
+    }
+    private void SlotSelectNum()
+    {
+        // Hide slot selector
+        slotSelectors[slotNumber].GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        int num = GetPressedNumber();
+
+        if (num != -1 && num > 0 && num <= hotbarSlots.Count)
+        {
+            slotNumber = num - 1;
+            
+        }
+        // Show slot selector
+        slotSelectors[slotNumber].GetComponent<Image>().color = new Color(1, 1, 1, 1);
     }
     public Item GetActiveItem()
     {
@@ -137,5 +152,14 @@ public class InventoryManager : MonoBehaviour
                 slotSelectors[i].GetComponent<Image>().color = new Color(1, 1, 1, 1);
             slotSelectors[i].GetComponent<Image>().color = new Color(1, 1, 1, 0);
         }
+    }
+    private int GetPressedNumber()
+    {
+        for (int number = 0; number <= 9; number++)
+        {
+            if (Input.GetKeyDown(number.ToString()))
+                return number;
+        }
+        return -1;
     }
 }   

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using System.Diagnostics;
-using UnityEngine.Rendering.Universal;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,22 +13,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int worldWidth, worldHeight;
     [SerializeField] private int borderThickness;
     [SerializeField] private TerrainGeneration terrainGenerator;
-    [SerializeField] public Light2D globalLight;
-    private Stopwatch stopwatch;
-    private static int noon = 10000;
-    private static int midnight = 20000;
-    private static float minIntensity = 0.1F;
-    private static float maxIntensity = 1.0F;
+    
 
     private void Start()
     {
-        GenerateWorldBorders();
+        
         worldHeight = terrainGenerator.GetWorldHeight;
         worldWidth = terrainGenerator.GetWorldWidth;
-
-        globalLight.intensity = 0.5F;
-        stopwatch = new Stopwatch();
-        stopwatch.Start();
+        GenerateWorldBorders();
     }
 
     void Update()
@@ -40,8 +31,6 @@ public class GameManager : MonoBehaviour
             PauseGame();
         else
             ResumeGame();
-
-        DayNightCycle();
     }
     private void ToggleInventory()
     {
@@ -94,21 +83,5 @@ public class GameManager : MonoBehaviour
                 tilemap.SetTile(new Vector3Int(x, y, 0), borderTile);
             }
         }
-    }
-
-    private void DayNightCycle()
-    {
-        TimeSpan ts = stopwatch.Elapsed;
-        if (ts.Milliseconds == midnight)
-        {
-            stopwatch.Restart();
-        } else if (ts.Milliseconds >= 0 && ts.Milliseconds < noon)
-        {
-            globalLight.intensity = Mathf.Lerp(globalLight.intensity, maxIntensity, Time.deltaTime);
-        } else if (ts.Milliseconds >= noon)
-        {
-            globalLight.intensity = Mathf.Lerp(globalLight.intensity, minIntensity, Time.deltaTime);
-        }
-        
     }
 }
